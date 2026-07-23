@@ -1,0 +1,68 @@
+.home{
+    background-color: #f2f5fa;
+}
+.element{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    background-color: #f2f5fa;
+    align-items: center;
+    padding: 30px 40px;
+}
+.description{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.enter{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.slogan{
+    color: #2563EB;
+    font-weight: 28px;
+    font-size: 28px;
+}
+.des-text{
+    color: #0b0a0ae4;
+    font-weight: 12px;
+    font-size: 16px;
+    letter-spacing: 0.9px;
+}
+.redirect{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+.view-map, .sign{
+    padding: 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    position: relative;
+    z-index: 10;
+    width: 80%;
+}
+.view-map{
+    background-color: #2563EB;
+}
+.view-map:hover{
+    transform: translateY(-2px);
+    background-color: #2d6bf3;
+}
+.view-map:active{
+    background-color: #054fee;
+}
+.sign{
+    background-color: #c9d5f7;
+    color: #2563EB;   
+}
+.sign:hover{
+    transform: translateY(-2px);
+    background-color: #c9d4ee;
+}
+.sign:active{
+    background-color: #b4c7f0;
+}
