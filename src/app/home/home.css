@@ -1,0 +1,124 @@
+body{
+    background-color: #ffffff;
+    margin: 5px;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    background-color: #ffffff;
+    border-bottom: solid 1px #e5e5e5;
+    position: sticky;
+    top: 0;
+    z-index: 1000;  
+}
+.name{
+    color: #2563EB;
+    font-size: 14px;
+    margin-right: auto;
+    letter-spacing: -1px;
+}
+nav{
+    display: flex;
+    gap: 30px;
+    margin-right: 40px;
+}
+nav ul{
+    display: flex;
+    gap: 30px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+nav li{
+    display: inline;
+}
+nav a{
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+nav a::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: #2563EB;
+    transition: width 0.3s ease;
+}
+nav a:hover::after{
+    width: 100%;
+}
+.home{
+    background-color: #f2f5fa;
+}
+.element{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    background-color: #f2f5fa;
+    align-items: center;
+    padding: 30px 40px;
+}
+.description{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.enter{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.slogan{
+    color: #2563EB;
+    font-weight: 28px;
+    font-size: 28px;
+}
+.des-text{
+    color: #0b0a0ae4;
+    font-weight: 12px;
+    font-size: 16px;
+    letter-spacing: 0.9px;
+}
+.redirect{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+.view-map, .sign{
+    padding: 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    position: relative;
+    z-index: 10;
+    width: 80%;
+}
+.view-map{
+    background-color: #2563EB;
+}
+.view-map:hover{
+    transform: translateY(-2px);
+    background-color: #2d6bf3;
+}
+.view-map:active{
+    background-color: #054fee;
+}
+.sign{
+    background-color: #c9d5f7;
+    color: #2563EB;   
+}
+.sign:hover{
+    transform: translateY(-2px);
+    background-color: #c9d4ee;
+}
+.sign:active{
+    background-color: #b4c7f0;
+}
