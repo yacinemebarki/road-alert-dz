@@ -2,17 +2,19 @@
     background-color: #f2f5fa;
 }
 .element{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    display: flex;
+    gap: 40px;
     background-color: #f2f5fa;
     align-items: center;
+    justify-content: space-between;
     padding: 30px 40px;
+    height: 500px;
 }
 .description{
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 25px;
+    margin-left: 60px;
 }
 .enter{
     display: flex;
@@ -29,21 +31,23 @@
     font-weight: 12px;
     font-size: 16px;
     letter-spacing: 0.9px;
+    max-width: 400px;
 }
 .redirect{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    gap: 10px;
 }
 .view-map, .sign{
     padding: 12px;
-    font-size: 14px;
+    font-size: 18px;
+    font-weight: 24px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     color: white;
     position: relative;
     z-index: 10;
-    width: 80%;
+    width: 200px;
 }
 .view-map{
     background-color: #2563EB;
@@ -65,4 +69,29 @@
 }
 .sign:active{
     background-color: #b4c7f0;
+}
+.img-des{
+    border-radius: 16px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px; 
+    width: 450px;
+    overflow: hidden; 
+    margin-right: 70px;
+    transform: rotate(3deg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); 
+    transition: transform 0.4s ease
+}
+.img-des:hover{
+    transform: rotate(0deg);
+}
+
+.img{
+    width: 70%;
+    height: 280px;
+    width: 430px;
+    object-fit: cover; 
+    border-radius: 8px;
 }
