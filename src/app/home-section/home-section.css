@@ -1,4 +1,4 @@
-.home{
+#home{
     background-color: #f2f5fa;
 }
 .element{
@@ -48,6 +48,7 @@
     position: relative;
     z-index: 10;
     width: 200px;
+    transition: transform 0.3s ease
 }
 .view-map{
     background-color: #2563EB;

@@ -1,1 +1,22 @@
-<p>servive-section works!</p>
+<section id="service">
+    <div class="service-des">
+        <div class="service-section-title">
+            <h1>Designed for Acion</h1>
+        </div>
+        <div class="service-section-text">
+            Simplified reporting workflows to help authorities prioritize what matters most to you.
+        </div>
+     </div>
+    <div class="services">
+        @for (service of services; track service.title) {
+            <app-service-card
+                [icon]="service.icon"
+                [title]="service.title"
+                [text]="service.text"
+                [color]="service.color">
+            </app-service-card>
+        }           
+    </div>
+
+       
+</section>
