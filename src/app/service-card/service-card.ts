@@ -11,5 +11,6 @@ export class ServiceCard {
   @Input() title!: string;
   @Input() text!: string;
   @Input() color!: string;
-  
+  @Input() text_color!: string;
+  @Input() icon_color!: string; 
 }

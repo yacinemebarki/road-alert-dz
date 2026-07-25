@@ -1,8 +1,8 @@
-<div class="service-card">
-    <div class="service-img">
+<div class="service-card" [style.background-color]="color" [style.color]="text_color">
+    <div class="service-img" [style.background-color]="icon_color">
         <i [class]="icon"></i>
     </div>
-    <div class="serivice-title">
+    <div class="service-title">
         <h1>{{ title }}</h1>
     </div>
     <div class="service-text">

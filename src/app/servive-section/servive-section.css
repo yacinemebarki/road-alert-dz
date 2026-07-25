@@ -1,21 +1,25 @@
 #service{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 10px;
     height: 500px;
+    background-color: #F9FAFB;
 }
 .service-section-title{
     color: rgb(1, 1, 78);
     font-size: 20px;
     font-weight: 28px;
     margin-left: 130px;
-    margin-bottom: 30px;
 }
 .service-section-text{
-    margin-bottom: 200px;  
     letter-spacing: 0.3;  
     font-size: large;
     text-align: center;
     width: 600px;
+}
+.services{
+    display: flex;
+    gap: 40px;
 }
