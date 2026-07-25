@@ -37,7 +37,7 @@
     display: flex;
     gap: 10px;
 }
-.view-map, .sign{
+.view-map, .report{
     padding: 12px;
     font-size: 18px;
     font-weight: 24px;
@@ -48,6 +48,7 @@
     position: relative;
     z-index: 10;
     width: 200px;
+    text-align: center;
     transition: transform 0.3s ease
 }
 .view-map{
@@ -60,15 +61,15 @@
 .view-map:active{
     background-color: #054fee;
 }
-.sign{
+.report{
     background-color: #c9d5f7;
     color: #2563EB;   
 }
-.sign:hover{
+.report:hover{
     transform: translateY(-2px);
     background-color: #c9d4ee;
 }
-.sign:active{
+.report:active{
     background-color: #b4c7f0;
 }
 .img-des{
