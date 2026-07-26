@@ -12,6 +12,7 @@
     flex-direction: column;
     justify-content: center;
     gap: 20px;
+    margin-left: 50px;
 }
 .qa{
     height: 200px;
