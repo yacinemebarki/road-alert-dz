@@ -1,0 +1,38 @@
+.body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #EFF4FF;
+    min-height: 100vh;
+}
+.sign-up{
+    border-radius: 16px;
+    background-color: #fff;
+    width: 500px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.steps{
+    display: flex;
+    background-color:  #c9d5f7;
+    border-radius: 4px;
+    gap: 15px;
+    height: 40px;
+}
+.step{
+    margin-left: 10px;
+    width: 40px;
+    border-radius: 60px;  
+    border: none;
+    background-color: #fff;  
+}
+.step.passed{
+    background-color: #B4C5FF;
+    color: white;
+}
+.step.active{
+    background-color: #0053DB;
+    color: #fff;
+}
