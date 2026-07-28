@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { Steps } from '../steps/steps';
 
 @Component({
   selector: 'app-signup',
-  imports: [],
+  imports: [Steps],
   templateUrl: './signup.html',
   styleUrl: './signup.css',
 })

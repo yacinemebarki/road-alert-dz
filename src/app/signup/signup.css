@@ -20,45 +20,21 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 
 }
-.steps{
+.box{
     display: flex;
-    background: rgba(233, 239, 253, 0.8);
-    border-radius: 4px;
-    gap: 15px;
-    height: 55px;
-    box-shadow:0 0 8px rgba(225, 223, 245, 0.4), inset 0 0 20px rgba(223, 221, 252, 0.05);
-}
-.step{
-    margin-left: 10px;
-    width: 35px;
-    border-radius: 60px;  
-    border: none;
-    background-color: #fff;  
-    margin-top: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0 0 12px rgba(235, 238, 243, 0.35);
-}
-.step.passed{
-    background-color: #B4C5FF;
-    color: white;
-    box-shadow: 0 0 12px rgba(170, 195, 238, 0.35);
-}
-.step.active{
-    background-color: #0053DB;
-    color: #fff;
-    box-shadow: 0 0 12px rgba(13,87,216,0.35);
-}
-.line{
-    margin-top: 15px;
-    font-size: 14px;
-    color: #a5a3a3;
-    transform: scaleX(10);
-    margin-left: 10px;
-    color: #b8bfd6;
-}
-.step-title{
-    margin-left: 120px;
-    font-size: 17px;
-    color: #0053DB;
+    flex-direction: column;
+    gap: 30px;
+    margin-left: 40px;
 }
 
+.inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.title{
+    display: flex;
+    flex-direction: column;
+
+}

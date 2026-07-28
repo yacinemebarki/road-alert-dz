@@ -1,16 +1,6 @@
 <div class="body">
     <div class="sign-up">
-        <div class="steps">
-            <button class="step passed" id="step1">1</button>
-            <div class="line">-</div>
-            <button class="step active" id="step2">2</button>
-            <div class="line">-</div>
-            <button class="step" id="3">3</button>
-            <div class="step-title">
-                <h4>Personal Details</h4>
-            </div>
-        </div>
-
+        <app-steps></app-steps>
         <div class="box">
             <div class="title">
                 <h2>Create your account</h2>
@@ -18,14 +8,20 @@
             </div>
 
             <div class="inputs">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" class="email" placeholder="example@gmail.com">
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" class="email" placeholder="example@gmail.com">
+                </div>
 
-                <label for="password">Password</label>
-                <input type="password" id="password" class="password" placeholder="............">
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="password" placeholder="............">
+                </div>
 
-                <label for="confirm">Confirm Password</label>
-                <input type="password" id="confirm" class="confirm-password" placeholder="............">
+                <div class="input-group">
+                    <label for="confirm">Confirm Password</label>
+                    <input type="password" id="confirm" class="confirm-password" placeholder="............">
+                </div>
             </div>
 
             <div class="btns">
