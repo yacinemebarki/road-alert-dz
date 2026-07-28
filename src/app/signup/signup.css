@@ -77,5 +77,14 @@
     border-radius: 4px;
     background-color: #0053DB;
     color: #fff;
+    transition: transfrom 0.9s ease;
+    cursor: pointer;
 }
-
+.btn:hover{
+    box-shadow: 0 6px 16px rgba(0, 83, 219, 0.3),0 3px 6px rgba(0, 83, 219, 0.18);
+    transform: translateY(-1px);   
+}
+.btn:active{
+    box-shadow: 0 2px 6px rgba(0, 83, 219, 0.25);
+    transform: translateY(0);
+}

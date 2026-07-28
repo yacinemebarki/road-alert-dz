@@ -1,0 +1,12 @@
+.privacy{
+    display: flex;
+    background: rgba(233, 239, 253, 0.8);
+    border-radius: 4px;
+    gap: 15px;
+    height: 35px;
+    box-shadow:0 0 8px rgba(225, 223, 245, 0.4), inset 0 0 20px rgba(223, 221, 252, 0.05);
+}
+.privacy i{
+    margin-left: 10px;
+    margin-top: 20px;
+}
