@@ -10,4 +10,10 @@ import { Verfication } from '../verfication/verfication';
   templateUrl: './signup.html',
   styleUrl: './signup.css',
 })
-export class Signup {}
+export class Signup {
+  current_step = 1;
+
+  next_step(){
+    this.current_step = 2;
+  }
+}

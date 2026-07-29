@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-sign-up-inputs',
@@ -6,4 +6,10 @@ import { Component } from '@angular/core';
   templateUrl: './sign-up-inputs.html',
   styleUrl: './sign-up-inputs.css',
 })
-export class SignUpInputs {}
+export class SignUpInputs {
+  @Output() btn =  new EventEmitter<void>();
+
+  onVerify(){
+    this.btn.emit();
+  }
+}

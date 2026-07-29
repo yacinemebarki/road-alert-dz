@@ -1,8 +1,22 @@
 <div class="steps">
-    <button class="step active" id="step1">1</button>
+
+    <button class="step"
+        [class.active]="current_step === 1"
+        [class.passed]="current_step > 1">
+        1
+    </button>
+
     <div class="line">-</div>
-    <button class="step" id="step2">2</button>
+
+    <button class="step"
+        [class.active]="current_step === 2">
+        2
+    </button>
+
     <div class="step-title">
-        <h4>{{ title }}</h4>
+        <h4>
+            {{ current_step === 1 ? 'Personal Details' : 'Email Verification' }}
+        </h4>
     </div>
+
 </div>

@@ -8,5 +8,5 @@ import { Component, Input, input } from '@angular/core';
   styleUrl: './steps.css',
 })
 export class Steps {
-    @Input() title!: string;
+    @Input() current_step = 1;
 }
