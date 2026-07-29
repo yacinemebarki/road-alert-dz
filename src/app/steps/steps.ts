@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { Component, Input, input } from '@angular/core';
 
 @Component({
   selector: 'app-steps',
@@ -6,4 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './steps.html',
   styleUrl: './steps.css',
 })
-export class Steps {}
+export class Steps {
+    @Input() title!: string;
+}
