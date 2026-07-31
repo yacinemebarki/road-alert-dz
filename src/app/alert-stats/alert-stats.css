@@ -1,9 +1,86 @@
-.stats{
+.stats {
     background-color: #fff;
-    border-radius: 4px;
-    margin-left: 40px;
-    width: 400px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    padding: 16px;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-left: 120px;
+}
+ 
+.title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+ 
+.title h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+}
+ 
+.title i {
+    font-size: 22px;
+    color: #0053DB;
+}
+ 
+.percent {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+ 
+.percent h4 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: #6b7280;
+}
+ 
+.percent h5 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+    color: #10B981;
+}
+ 
+.numbers {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #f0f1f3;
+    padding-top: 14px;
+}
+ 
+.stat-card {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 4px;
+}
+ 
+.stat-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--dot-color, #9ca3af);
+}
+ 
+.stat-card.broken .stat-dot { --dot-color: #EF4444; }
+.stat-card.in-progress .stat-dot { --dot-color: #F59E0B; }
+.stat-card.fixed .stat-dot { --dot-color: #10B981; }
+ 
+.stat-number {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+}
+ 
+.stat-label {
+    font-size: 11px;
+    color: #6b7280;
+    text-align: center;
 }
