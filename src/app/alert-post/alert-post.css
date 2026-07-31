@@ -5,5 +5,25 @@
     width: 650px;
     height: 700px;
     margin-bottom: 500px;
-    margin-right: 300px;  
+    margin-right: 300px; 
+    display: flex;
+    flex-direction: column; 
+    padding: 10px;
+}
+.head{
+    display: flex;
+    gap: 450px;
+}
+.publisher-info{
+    display: flex;
+    flex-direction: column;
+}
+.user-info{
+    display: flex;
+    gap: 20px;
+}
+.profile{
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
 }
