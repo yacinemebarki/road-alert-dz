@@ -1,28 +1,48 @@
 header{
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between; 
+    padding: 12px 24px;
     background-color: #ffffff;
     border-bottom: solid 1px #e5e5e5;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 .identity{
+    display: flex;     
     align-items: center;
     gap: 10px;
-    margin-right: 550px;
 }
 .identity h2{
     color: #2563EB;
     font-size: 20px;
-    margin-right: auto;
     letter-spacing: -1px;
 }
 .title{
-    margin-right: 650px;
+    display: flex;      
     align-items: center;
 }
 .title h2{
     color: #2563EB;
     font-size: 20px;
-    margin-right: auto;
-    letter-spacing: -1px;    
+    letter-spacing: -1px;
+}
+.add-post-btn{
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background-color: #2563eb;
+    color: #fff;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    flex-shrink: 0; 
+}
+.add-post-btn:hover{
+    transform: translateY(-2px);
+    background-color: #1d4ed8;
+}
+.add-post-btn:active{
+    transform: translateY(2px);
 }
