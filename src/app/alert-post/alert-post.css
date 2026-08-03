@@ -3,7 +3,7 @@
     border-radius: 4px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     width: 650px;
-    height: 700px;
+    height: 650px;
     margin-bottom: 500px;
     margin-right: 300px; 
     display: flex;
@@ -119,4 +119,33 @@
     height: 300px;
     object-fit: cover;
     border-radius: 0; /* remove if you want it flush with the post edges */
+}
+.reaction {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    width: 100%;
+    margin-top: 10px;
+}
+.like, .share {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 4px;
+    padding: 5px;    
+    cursor: pointer;
+}
+.like{
+    color: #0053DB;
+    border-radius: 4px;
+    height: 30px;
+    width: 100px;  
+    padding: 5px; 
+}
+.like:hover, .share:hover{
+    background-color: #D3E4FE;
+}
+.share{
+    height: 30px;
+    width: 70px;     
 }
