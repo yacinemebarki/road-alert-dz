@@ -32,3 +32,133 @@ header{
     margin-right: auto;
     letter-spacing: -1px;    
 }
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.intro{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.intro h1{
+    font-weight: 800;
+    font-size: 40px;
+    margin: 0;
+}
+.intro p{
+    font-size: 18px;
+    font-weight: 100;
+    max-width: 600px;
+    margin: 0;
+}
+.inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: #fff;
+    border-radius: 4px;
+    border-top: 4px solid #2563EB;
+    height: 600px;
+    width: 680px;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: 120px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+
+}
+.inputs:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15);
+}
+.image-input, .title-input, .description-input, .location-input{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+label{
+    font-size: 18px;
+}
+.drop-zone{
+    border: 2px dashed #cbd5e1;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    padding: 40px 20px;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.drop-zone:hover{
+    border-color: #2563EB;
+}
+.drop-zone i{
+    font-size: 48px;
+    color: #cbd5e1;
+    margin-bottom: 10px;
+}
+.drop-zone p{
+    margin: 0;
+    font-size: 16px;
+    color: #64748b;
+}
+
+.upload-link{
+    color: #2563EB;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.upload-link:hover{
+    text-decoration: underline;
+}
+
+.file-info{
+    font-size: 13px ;
+    color: #94a3b8;
+    margin-top: 4px ;
+}
+input, textarea {
+    height: 40px;
+    border: 2px solid #cbd5e1;
+    border-radius: 6px;
+    outline: none;
+}
+.btn{
+    display: flex;
+    gap: 15px;
+}
+
+.report{
+    background-color: #2563EB;
+    width: 200px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+}
+.cancel{
+    background-color: #fff;
+    width: 80px;
+    border-radius: 8px;
+    border: 2px solid #cbd5e1;
+}
+.report:hover{
+    background-color: #1c4cb3;
+}
+.cancel:hover{
+    background-color: #fafafb;
+}
+.report:active{
+    transform: translateY(1.5px);
+}
+.cancel:active{
+    transform: translateY(1.5px);
+}

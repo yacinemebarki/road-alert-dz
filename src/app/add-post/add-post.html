@@ -15,18 +15,16 @@
         </div>
         <div class="inputs">
             <div class="image-input">
-                <div id="drop-zone">
-                    <i class="bi bi-plus-square-dotted"></i>
-                    Drag & Drop an image here
-                    <br>
-                    or
-                    <br>
-                    <input type="file" id="image-input" accept="image/*">
+                <label for="drop-zone">Photo Evidence (Required)</label>
+                <div class="drop-zone" id="drop-zone">
+                    <i class="bi bi-image"></i>
+                    <p><span class="upload-link" id="upload-link">Upload a file</span> or drag and drop</p>
+                    <p class="file-info">PNG, JPG, GIF up to 10MB</p>
                 </div>
             </div>
             <div class="title-input">
-                <label for="title">title: </label>
-                <input type="text" class="title" id="title" placeholder="enter title">
+                <label for="title-iput">title: </label>
+                <input type="text" class="title-iput" id="title-input" placeholder="enter title">
             </div>
             <div class="description-input">
                 <label for="description">discription: </label>
@@ -36,10 +34,11 @@
                 <label for="location">location: </label>
                 <input type="text" id="location" class="location" placeholder="enter cordinate link">
             </div>
+            <div class="btn">
+                <button class="report" id="report">Submit Report</button>
+                <button class="cancel" id="cancel">cancel</button>
+            </div>
         </div>
-        <div class="btn">
-            <button class="report" id="report">Submit Report</button>
-            <button class="cancel" id="cancel">cancel</button>
-        </div>
+        
     </div>    
 </div>
