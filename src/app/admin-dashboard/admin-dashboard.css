@@ -1,0 +1,19 @@
+.body {
+    display: flex;
+    flex-direction: column;
+    background-color: #e7eff8;
+    min-height: 100vh;
+}
+header{
+    background-color: #fff;
+    display: flex;
+    padding-left: 20px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    gap: 20px;
+    height: 40px;
+}
+header h1{
+    font-size: 20px;
+    
+}

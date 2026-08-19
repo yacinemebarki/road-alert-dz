@@ -14,8 +14,25 @@
     </div>
     <div class="recent-post">
         <h1>Recent alert</h1>
-        <div class="alert">
-            
-        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Report Id</th>
+                    <th>Report title</th>
+                    <th>Wilaya</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let report of reports">
+                    <td>{{ report.id }}</td>
+                    <td>{{ report.title }}</td>
+                    <td>{{ report.wilaya }}</td>
+                    <td>{{ report.status }}</td>
+                    <td>{{ report.action }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
