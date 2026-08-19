@@ -2,7 +2,7 @@
     <header>
         <h1>admin Dashboard</h1>
         <div class="search">
-            <input class="search-input" id="search-input" type="text" placeholder="enter title">
+            <input type="text" id="search-input" class="search-input" placeholder="search reports wilaya">
         </div>
     </header>   
     <div class="filter">
@@ -10,7 +10,11 @@
             <h2>Infrastructure Management Overview</h2>
             <p>Monitor and manage national road hazard reports.</p>
         </div>
-        <app-alert-filter></app-alert-filter>       
+        <select id="status">
+            <option value="">Select a status</option>
+            <option value="New">New posts</option>
+            <option value="update">Update status</option>
+        </select>
     </div>
     <div class="recent-post">
         <h1>Recent alert</h1>

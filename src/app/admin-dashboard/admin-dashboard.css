@@ -10,10 +10,31 @@ header{
     padding-left: 20px;
     padding-bottom: 10px;
     padding-top: 10px;
-    gap: 20px;
     height: 40px;
+    gap: 20px;
 }
 header h1{
     font-size: 20px;
-    
 }
+.search{
+    margin-top: 7px;
+}
+.search-input{
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.128);
+    background-color: #e7eff8;
+    height: 30px;
+    transition: transform 0.3s ease;
+    padding-left: 8px;
+}
+.search-input:hover{
+    transform: translateY(-2px);
+    transform: scaleY(1.07);
+}
+.filter{
+    padding-left: 20px;
+    display: flex;
+    margin-top: 30px;
+}
+
+
