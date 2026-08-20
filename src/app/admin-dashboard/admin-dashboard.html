@@ -1,41 +1,74 @@
 <div class="body">
-    <header>
-        <h1>admin Dashboard</h1>
+    <header class="topbar">
+        <h1 class="topbar-title">Admin Dashboard</h1>
         <div class="search">
-            <input type="text" id="search-input" class="search-input" placeholder="search reports wilaya">
+            <svg class="search-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M17 17L13.5 13.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <input type="text" id="search-input" class="search-input" placeholder="Search reports by wilaya">
         </div>
-    </header>   
+    </header>
+
+    <section class="stats-grid">
+        @for (stat of stats; track stat.label) {
+            <div class="stat-card">
+                <div class="stat-icon" [class]="stat.iconClass">
+                    <span>{{ stat.icon }}</span>
+                </div>
+                <div class="stat-info">
+                    <p class="stat-label">{{ stat.label }}</p>
+                    <h3 class="stat-value">{{ stat.value }}</h3>
+                </div>
+            </div>
+        }
+    </section>
+
     <div class="filter">
         <div class="text">
             <h2>Infrastructure Management Overview</h2>
             <p>Monitor and manage national road hazard reports.</p>
         </div>
-        <select id="status">
+        <select id="status" class="status-select">
             <option value="">Select a status</option>
             <option value="New">New posts</option>
             <option value="update">Update status</option>
         </select>
     </div>
+
     <div class="recent-post">
-        <h1>Recent alert</h1>
+        <div class="card-header">
+            <h2>Recent Alerts</h2>
+        </div>
         <table>
             <thead>
                 <tr>
                     <th>Report Id</th>
-                    <th>Report title</th>
+                    <th>Report Title</th>
                     <th>Wilaya</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let report of reports">
-                    <td>{{ report.id }}</td>
-                    <td>{{ report.title }}</td>
-                    <td>{{ report.wilaya }}</td>
-                    <td>{{ report.status }}</td>
-                    <td>{{ report.action }}</td>
-                </tr>
+                @for (report of reports; track report.id) {
+                    <tr>
+                        <td class="muted">#{{ report.id }}</td>
+                        <td>{{ report.title }}</td>
+                        <td>{{ report.wilaya }}</td>
+                        <td>
+                            <span class="badge"
+                                [class.badge-new]="report.status === 'New'"
+                                [class.badge-progress]="report.status === 'In Progress'"
+                                [class.badge-resolved]="report.status === 'Resolved'">
+                                {{ report.status }}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="action-btn">{{ report.action }}</button>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
