@@ -1,6 +1,10 @@
 import express from "express";
 import nodemailer from "nodemailer";
 import 'dotenv/config';
+import mongoose from "mongoose";
+import  User   from './model/user.js';
+import bcrypt from "bcrypt";
+
 
 const app = express();
 
@@ -13,6 +17,14 @@ app.get("/api/test", (req, res) => {
 app.listen(3000, ()=>{
     console.log("server run on 3000");
 })
+
+export async function connectDb(){
+    try{
+        await mongoose.connect(process.env.URI!);
+    }catch(err){
+        console.log(err);
+    }
+}
 
 function generate_number() {
     let min = 9
@@ -41,17 +53,96 @@ async function sent_verfication_email(to: string, subject: string, text: string)
     }
 }
 
+const sign_up_data = new Map();
+
+app.post("api/sign_up", async (req, res) => {
+    const { user_name, email, password} = req.body;
+    let message = "";
+    try{  
+        let exist = await User.findOne({ email: email});
+
+        if(exist){
+            message = "user with that email already exist";
+
+            return res.json({
+                succes: false,
+                message: message
+            })
+        }
+
+        let new_user = true;
+
+        sign_up_data.set(email, { user_name, password, new_user});
+        message = "wait for verfication";
+
+        return res.json({
+            succes: true,
+            message: message,
+            email: email
+        })
+    }catch(err){
+        message = "somthing went wrong";
+        return res.json({
+            succes: false,
+            message: message
+        })
+    }
+    
+})
+
 app.post("/api/verfy",async (req, res) => {
-    const email = req.body;
-    const subject = "your verfication code";
-    let code = generate_number();
-    let text = code.toString();
+    const { email, user_code } = req.body;
+    let message = "";
 
-    await sent_verfication_email(email, subject, text);
+    try{  
+        const subject = "your verfication code";
+        let code = generate_number();
+        let text = code.toString();
 
-    res.json({
-        success: true,
-        code: code
-    })
+        await sent_verfication_email(email, subject, text);
+
+        if( user_code != code){
+            message = "wrong verfication code";
+            return res.json({
+                succes: false,
+                message: message
+            })
+        }
+        const userData = sign_up_data.get(email);
+
+        if(!userData){
+            message = "data not be saved";
+            return res.json({
+                succes: false,
+                message: message
+            })
+        }
+        if(userData.new_user == true){
+            const hashPassword = await bcrypt.hash(userData.password, 10);
+            const newUser = new User({
+                name: userData.user_name,
+                email: email,
+                password: userData.password                
+            })
+            await newUser.save()
+            sign_up_data.delete(email)
+
+            return res.json({
+                success: true,
+                message: "Verification successful. Account created!"
+            })
+        }
+
+        
+    }catch(err){
+        message = "somthing went wrong";
+    
+        return res.json({
+            succes: false,
+            message: message
+        })
+    }
+
+
 })
 

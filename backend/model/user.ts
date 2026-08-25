@@ -1,4 +1,3 @@
-import signals = require("@angular/forms/signals");
 import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
