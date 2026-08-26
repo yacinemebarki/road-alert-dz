@@ -62,7 +62,7 @@ input[type="number"] {
     gap: 230px;
     margin-bottom: 20px;
 }
-.ver-btn{
+.verBtn{
     width: 120px;
     height: 30px;
     border: none;
@@ -73,11 +73,11 @@ input[type="number"] {
     cursor: pointer;
     margin-left: 280px;
 }
-.ver-btn:hover{
+.verBtn:hover{
     box-shadow: 0 6px 16px rgba(0, 83, 219, 0.3),0 3px 6px rgba(0, 83, 219, 0.18);
     transform: translateY(-1px);   
 }
-.ver-btn:active{
+.verBtn:active{
     box-shadow: 0 2px 6px rgba(0, 83, 219, 0.25);
     transform: translateY(0);
 }

@@ -2,10 +2,10 @@
     <div class="sign-up">
         <app-steps [current_step]="current_step"></app-steps>
         @if(current_step == 1){
-            <app-sign-up-inputs (UpBtn)="next_step()"></app-sign-up-inputs>
+            <app-sign-up-inputs (UpBtn)="next_step($event)"></app-sign-up-inputs>
         }
         @if(current_step == 2){
-            <app-verfication></app-verfication>
+            <app-verfication [email]="email"></app-verfication>
         }
         <app-privacy-message></app-privacy-message>
     </div>

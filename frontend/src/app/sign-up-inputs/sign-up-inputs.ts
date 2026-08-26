@@ -15,7 +15,7 @@ interface SignUpResponse {
   styleUrl: './sign-up-inputs.css',
 })
 export class SignUpInputs {
-  @Output() UpBtn =  new EventEmitter<void>();
+  @Output() UpBtn =  new EventEmitter<string>();
 
   constructor(private http: HttpClient){}
 
@@ -48,7 +48,7 @@ export class SignUpInputs {
         console.log(response.message);
         return;
       }
-      this.UpBtn.emit();
+      this.UpBtn.emit(this.email);
 
     });
     

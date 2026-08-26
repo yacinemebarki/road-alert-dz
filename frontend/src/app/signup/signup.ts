@@ -6,14 +6,17 @@ import { Verfication } from '../verfication/verfication';
 
 @Component({
   selector: 'app-signup',
+  standalone: true,
   imports: [Steps, PrivacyMessage, SignUpInputs, Verfication],
   templateUrl: './signup.html',
   styleUrl: './signup.css',
 })
 export class Signup {
   current_step = 1;
+  email = '';
 
-  next_step(){
+  next_step(email: string){
+    this.email = email;
     this.current_step = 2;
   }
 }

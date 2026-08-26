@@ -46,20 +46,26 @@ const transporter = nodemailer.createTransport({
     }
 })
 
-async function sent_verfication_email(to: string, subject: string, text: string){
+async function sent_verfication_email(to: string){
     try {  
+        let code = generate_number();
+        codes.set(to, code);       
+        let text = code.toString();
+        const subject = "your verfication code";
         await transporter.sendMail({
             from: process.env.EMAIL,
             to: to,
             subject: subject,
             text: text
         })
+        return code;
     }catch(err){
         console.log(err);
     }
 }
 
 const sign_up_data = new Map();
+const codes = new Map();
 
 app.post("/api/sign_up", async (req, res) => {
     const { user_name, email, password} = req.body;
@@ -82,11 +88,8 @@ app.post("/api/sign_up", async (req, res) => {
         sign_up_data.set(email, { user_name, password, new_user});
         message = "wait for verfication";
         console.log(message);
-        let code = generate_number();
-        let text = code.toString();
-        const subject = "your verfication code";
 
-        await sent_verfication_email(email, subject, text);
+        await sent_verfication_email(email);
         return res.json({
             success: true,
             message: message,
@@ -103,14 +106,18 @@ app.post("/api/sign_up", async (req, res) => {
 })
 
 app.post("/api/verfy",async (req, res) => {
+    console.log("in verfy")
     const { email, user_code } = req.body;
     let message = "";
+    console.log(email);       
 
     try{  
+        let code = codes.get(email);
+        console.log(code);       
         if( user_code != code){
             message = "wrong verfication code";
             return res.json({
-                succes: false,
+                success: false,
                 message: message
             })
         }
@@ -119,7 +126,7 @@ app.post("/api/verfy",async (req, res) => {
         if(!userData){
             message = "data not be saved";
             return res.json({
-                succes: false,
+                success: false,
                 message: message
             })
         }
@@ -128,10 +135,12 @@ app.post("/api/verfy",async (req, res) => {
             const newUser = new User({
                 name: userData.user_name,
                 email: email,
-                password: userData.password                
+                password: hashPassword              
             })
-            await newUser.save()
-            sign_up_data.delete(email)
+            console.log("user created");
+            await newUser.save();
+            console.log("user been add to the data base ")
+            sign_up_data.delete(email);
 
             return res.json({
                 success: true,
@@ -142,6 +151,7 @@ app.post("/api/verfy",async (req, res) => {
         
     }catch(err){
         message = "somthing went wrong";
+        console.log(err);
     
         return res.json({
             succes: false,

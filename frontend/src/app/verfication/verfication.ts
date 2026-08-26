@@ -1,14 +1,24 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterOutlet } from '@angular/router';
+
+interface SignUpResponse {
+  success: boolean;
+  message: string;
+  email?: string;
+}
 
 @Component({
   selector: 'app-verfication',
-  imports: [],
+  standalone: true,
+  imports: [RouterOutlet, FormsModule],
   templateUrl: './verfication.html',
   styleUrl: './verfication.css',
 })
 export class Verfication {
-  @Output() verfyBtn = new EventEmitter<void>();
+  @Input() email = '';
+  @Output() verfyBtn = new EventEmitter<string>();
   code = '';
 
   constructor(private http: HttpClient){}
@@ -17,13 +27,22 @@ export class Verfication {
     if(this.code == ''){
       return;
     }
-
+    console.log(this.email)
     const data = {
-      code: this.code
+      email: this.email,
+      user_code: this.code
     };
   
-    this.http.post('http://localhost:3000/api/verfy', data);
-    
+    this.http.post<SignUpResponse>('http://localhost:3000/api/verfy', data).subscribe(response => {
+      if(!response.success){
+        console.log(response.message);
+        return;
+      }
+      console.log(response.message);
+      this.verfyBtn.emit(this.email);      
+
+    });
+
      
   }
 }

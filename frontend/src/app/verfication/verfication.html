@@ -8,10 +8,10 @@
     <div class="inputs">
         <div class="input-group">
             <label for="input-ver">Verfication code</label>
-            <input type="number" id="input-ver" class="input-ver" placeholder="Enter 6-digit code">
+            <input type="number" [(ngModel)]="code" id="input-ver" class="input-ver" placeholder="Enter 6-digit code">
         </div>
     </div>
     <div class="btn">
-        <button class="ver-btn" (click)="verfication()" id="ver-btn">Verify</button>       
+        <button class="verBtn" (click)="verfication()" id="verBtn" routerLink="alerts">Verify</button>       
     </div>
 </div>        
