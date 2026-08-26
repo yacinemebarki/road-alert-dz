@@ -2,7 +2,7 @@
     <div class="sign-up">
         <app-steps [current_step]="current_step"></app-steps>
         @if(current_step == 1){
-            <app-sign-up-inputs (btn)="next_step()"></app-sign-up-inputs>
+            <app-sign-up-inputs (UpBtn)="next_step()"></app-sign-up-inputs>
         }
         @if(current_step == 2){
             <app-verfication></app-verfication>

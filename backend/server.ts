@@ -4,12 +4,16 @@ import 'dotenv/config';
 import mongoose from "mongoose";
 import  User   from './model/user.js';
 import bcrypt from "bcrypt";
+import cors from 'cors';
 
 
 const app = express();
 
-app.use(express.json());
+app.use(cors({
+    origin: 'http://localhost:4200'
+}));
 
+app.use(express.json());
 app.get("/api/test", (req, res) => {
     res.json({ message: "from the backed" });
 });
@@ -25,6 +29,8 @@ export async function connectDb(){
         console.log(err);
     }
 }
+
+connectDb();
 
 function generate_number() {
     let min = 9
@@ -55,17 +61,18 @@ async function sent_verfication_email(to: string, subject: string, text: string)
 
 const sign_up_data = new Map();
 
-app.post("api/sign_up", async (req, res) => {
+app.post("/api/sign_up", async (req, res) => {
     const { user_name, email, password} = req.body;
+    console.log(user_name);
     let message = "";
     try{  
         let exist = await User.findOne({ email: email});
-
+        console.log(exist);
         if(exist){
             message = "user with that email already exist";
-
+            console.log(message);
             return res.json({
-                succes: false,
+                success: false,
                 message: message
             })
         }
@@ -74,16 +81,21 @@ app.post("api/sign_up", async (req, res) => {
 
         sign_up_data.set(email, { user_name, password, new_user});
         message = "wait for verfication";
+        console.log(message);
+        let code = generate_number();
+        let text = code.toString();
+        const subject = "your verfication code";
 
+        await sent_verfication_email(email, subject, text);
         return res.json({
-            succes: true,
+            success: true,
             message: message,
             email: email
         })
     }catch(err){
         message = "somthing went wrong";
         return res.json({
-            succes: false,
+            success: false,
             message: message
         })
     }
@@ -95,12 +107,6 @@ app.post("/api/verfy",async (req, res) => {
     let message = "";
 
     try{  
-        const subject = "your verfication code";
-        let code = generate_number();
-        let text = code.toString();
-
-        await sent_verfication_email(email, subject, text);
-
         if( user_code != code){
             message = "wrong verfication code";
             return res.json({

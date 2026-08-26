@@ -1,9 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+interface SignUpResponse {
+  success: boolean;
+  message: string;
+  email?: string;
+}
 
 @Component({
   selector: 'app-sign-up-inputs',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './sign-up-inputs.html',
   styleUrl: './sign-up-inputs.css',
 })
@@ -29,7 +36,6 @@ export class SignUpInputs {
     if(this.password != this.confirm_password){
       return;
     }
-    this.UpBtn.emit();
 
     const data = {
       user_name: this.user_name,
@@ -37,8 +43,14 @@ export class SignUpInputs {
       password: this.password
     }
 
-    this.http.post('http://localhost:3000/api/new_user', data).subscribe(response => {
-      console.log(response);
+    this.http.post<SignUpResponse>('http://localhost:3000/api/sign_up', data).subscribe(response => {
+      if(response.success == false){
+        console.log(response.message);
+        return;
+      }
+      this.UpBtn.emit();
+
     });
+    
   }
 }
