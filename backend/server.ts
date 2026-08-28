@@ -105,6 +105,54 @@ app.post("/api/sign_up", async (req, res) => {
     
 })
 
+app.post("/api/sign_in", async (req, res) => {
+    const { email, password } = req.body;
+    let message = '';
+
+    try{
+
+        const user = await User.findOne({ email: email });
+        if(!user){
+            message = "Invalid email or password";
+            return res.json({
+                success: false,
+                message: message,
+                email: email
+            })
+        }
+
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if(!passwordMatch){
+            message = "invalid email or password";
+            return res.json({
+                success: false,
+                message: message,
+                email: email
+            })
+        }
+        await sent_verfication_email(email);
+        message = "wait for verfication code";
+        let new_user = false;
+        const user_name = user.name;
+        sign_up_data.set(email, { user_name, password, new_user});
+
+        return res.json({
+            success: true,
+            message: message,
+            email: email
+        })
+        
+    }catch(err){
+        console.log(err);
+        message = "somthing went wrong";
+        return res.json({
+            success: false,
+            message: message,
+            email: email
+        })
+    }
+})
+
 app.post("/api/verfy",async (req, res) => {
     console.log("in verfy")
     const { email, user_code } = req.body;
@@ -145,6 +193,13 @@ app.post("/api/verfy",async (req, res) => {
             return res.json({
                 success: true,
                 message: "Verification successful. Account created!"
+            })
+        }else{
+            message = 'Verfication successful';
+            return res.json({
+                success: true,
+                message: message,
+                email: email,
             })
         }
 

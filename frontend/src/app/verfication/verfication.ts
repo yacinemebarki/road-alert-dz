@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 
 interface SignUpResponse {
   success: boolean;
@@ -12,7 +12,7 @@ interface SignUpResponse {
 @Component({
   selector: 'app-verfication',
   standalone: true,
-  imports: [RouterOutlet, FormsModule],
+  imports: [FormsModule],
   templateUrl: './verfication.html',
   styleUrl: './verfication.css',
 })
@@ -21,7 +21,7 @@ export class Verfication {
   @Output() verfyBtn = new EventEmitter<string>();
   code = '';
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient, private router: Router){}
 
   verfication(){
     if(this.code == ''){
@@ -39,7 +39,7 @@ export class Verfication {
         return;
       }
       console.log(response.message);
-      this.verfyBtn.emit(this.email);      
+      this.router.navigate(['/alerts']);      
 
     });
 

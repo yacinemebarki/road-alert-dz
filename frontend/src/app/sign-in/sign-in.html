@@ -6,15 +6,15 @@
     <div class="inputs">
         <div class="input-email">
             <label for="email">Email Address</label>
-            <input type="email" id="email" class="email" placeholder="example@gmail.com">
+            <input type="email" id="email" [(ngModel)]="email" class="email" placeholder="example@gmail.com">
         </div>  
         <div class="input-password">
             <div class="password-label">
                 <label for="password">Password</label>
                 <a href="/forget-password" class="forget">Forgot Password?</a>
             </div>
-            <input type="password" id="password" class="password" placeholder=".........">
+            <input type="password" [(ngModel)]="password" id="password" class="password" placeholder=".........">
         </div>
     </div>
-    <button class="sign-btn">Continue to a Dashboard</button>
+    <button class="sign-btn" (click)="sign()">Continue to a Dashboard</button>
 </div>
