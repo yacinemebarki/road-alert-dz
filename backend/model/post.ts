@@ -1,4 +1,5 @@
 import mongoose  from "mongoose";
+import { buffer } from "node:stream/consumers";
 
 const PostSchema = new mongoose.Schema({
     title: {
@@ -17,7 +18,8 @@ const PostSchema = new mongoose.Schema({
     },
 
     image: {
-        type: String,
+        data: buffer,
+        contentType: String,
         required: true
     }
 })

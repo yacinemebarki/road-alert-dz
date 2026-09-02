@@ -5,6 +5,8 @@ import mongoose from "mongoose";
 import  User   from './model/user.js';
 import bcrypt from "bcrypt";
 import cors from 'cors';
+import Post from "./model/post.js";
+import Alert from "./model/alert.js";
 
 
 const app = express();
@@ -18,6 +20,8 @@ app.get("/api/test", (req, res) => {
     res.json({ message: "from the backed" });
 });
 
+
+//backend and data base connection
 app.listen(3000, ()=>{
     console.log("server run on 3000");
 })
@@ -32,6 +36,8 @@ export async function connectDb(){
 
 connectDb();
 
+
+//email verfication
 function generate_number() {
     let min = 9
     let max = 100
@@ -45,6 +51,7 @@ const transporter = nodemailer.createTransport({
         pass: process.env.EMAIL_PASSWORD
     }
 })
+
 
 async function sent_verfication_email(to: string){
     try {  
@@ -64,6 +71,8 @@ async function sent_verfication_email(to: string){
     }
 }
 
+
+//sign and sign up
 const sign_up_data = new Map();
 const codes = new Map();
 
@@ -217,3 +226,69 @@ app.post("/api/verfy",async (req, res) => {
 
 })
 
+
+//post manger
+async function add_post(title: string, description: string, location: string, image: File){
+
+    try{
+        const newPost = new Post({
+            title: title,
+            descrtiption: description,
+            location: location,   
+            image: image    
+        })
+
+        const savedPost = await newPost.save();
+        return savedPost;
+    }catch(err){
+        console.log(err);
+        return;
+    }
+    
+}
+
+app.post("/api/add_post", async (req, res) => {
+    const { email, title, descrtiption, location, image} = req.body;
+
+    try{
+
+        const post = await add_post(title, descrtiption, location, image);
+        if (!post) {
+            return res.json({
+                success: false,
+                email: email,
+                message: "Failed to create post"
+            });
+        }
+        const user = await User.findOne({ email: email});
+
+        if (!user) {
+            return res.json({
+                success: false,
+                email: email,
+                message: "User not found"
+            });
+        }
+
+        const alert = new Alert({
+            user: user._id,
+            post: post._id
+        })
+        
+        await alert.save();
+
+        return res.json({
+            success: true,
+            email: email,
+            message: "alert was created success"
+        })
+
+
+    }catch(err){
+        return res.json({
+            success: false,
+            email: email,
+            message: "somthing went wrong"
+        })
+    }
+})
