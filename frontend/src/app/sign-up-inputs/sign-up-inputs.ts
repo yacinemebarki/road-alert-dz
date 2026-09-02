@@ -1,12 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-interface SignUpResponse {
-  success: boolean;
-  message: string;
-  email?: string;
-}
+import { SignUpResponse } from '../interfaces/signup-response';
 
 @Component({
   selector: 'app-sign-up-inputs',

@@ -1,13 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterOutlet } from '@angular/router';
-
-interface SignUpResponse {
-  success: boolean;
-  message: string;
-  email?: string;
-}
+import { Router } from '@angular/router';
+import { SignUpResponse } from '../interfaces/signup-response';
 
 @Component({
   selector: 'app-verfication',
@@ -39,7 +34,9 @@ export class Verfication {
         return;
       }
       console.log(response.message);
-      this.router.navigate(['/alerts']);      
+      this.router.navigate(['/alerts'], {
+        state: {email: this.email}
+      });      
 
     });
 
