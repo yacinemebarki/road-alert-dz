@@ -272,7 +272,8 @@ app.post("/api/add_post", async (req, res) => {
 
         const alert = new Alert({
             user: user._id,
-            post: post._id
+            post: post._id,
+            view: false
         })
         
         await alert.save();
@@ -288,7 +289,26 @@ app.post("/api/add_post", async (req, res) => {
         return res.json({
             success: false,
             email: email,
-            message: "somthing went wrong"
+            message: "somthing went wrong",
+        })
+    }
+})
+
+app.get("/api/dashboard_posts", async (req, res) => {
+    try{
+        const alerts = await Alert.find({ view: { $in: ["New", "Update" ]} }).populate("user", "email").populate("post");
+
+        return res.json({
+            success: true,
+            message: "alert was found",
+            alerts: alerts          
+        })
+        
+    }catch(err){
+        return res.json({
+            success: false,
+            message: "somthing went wrong",
+            alerts: []
         })
     }
 })

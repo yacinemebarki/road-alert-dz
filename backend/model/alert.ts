@@ -11,6 +11,13 @@ const AlertSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Post",
         required: true
+    },
+
+    view: {
+        type: String,
+        enum: ["New", "Update", "Old"],
+        default: "New",
+        required: true
     }
 })
 

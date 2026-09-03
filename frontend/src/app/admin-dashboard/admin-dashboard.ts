@@ -1,20 +1,8 @@
+import { Title } from '@angular/platform-browser';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-interface Stat {
-  icon: string;
-  label: string;
-  value: number;
-  iconClass: string;
-}
-
-interface Report {
-  id: number;
-  title: string;
-  wilaya: string;
-  status: 'New' | 'In Progress' | 'Resolved';
-  action: string;
-}
+import { HttpClient } from '@angular/common/http';
+import { Stat, Report, Alert, ALerResponse } from '../interfaces/alers-response';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -25,15 +13,34 @@ interface Report {
 })
 export class AdminDashboard {
   stats: Stat[] = [
-    { icon: '📋', label: 'Total Reports', value: 128, iconClass: 'icon-blue' },
-    { icon: '🆕', label: 'New', value: 12, iconClass: 'icon-blue' },
-    { icon: '⏳', label: 'In Progress', value: 34, iconClass: 'icon-gray' },
-    { icon: '✅', label: 'Resolved', value: 82, iconClass: 'icon-blue' },
+    { icon: '📋', label: 'Total Reports', value: 0, iconClass: 'icon-blue' },
+    { icon: '🆕', label: 'New', value: 0, iconClass: 'icon-blue' },
+    { icon: '⏳', label: 'In Progress', value: 0, iconClass: 'icon-gray' },
+    { icon: '✅', label: 'Resolved', value: 0, iconClass: 'icon-blue' },
   ];
 
-  reports: Report[] = [
-    { id: 1, title: 'Pothole on RN5', wilaya: 'Algiers', status: 'New', action: 'Review' },
-    { id: 2, title: 'Broken guardrail', wilaya: 'Blida', status: 'In Progress', action: 'Assign' },
-    { id: 3, title: 'Flooded underpass', wilaya: 'Oran', status: 'Resolved', action: 'View' },
-  ];
+  reports: Report[] = [];
+
+  constructor(private http: HttpClient){}
+
+  getPosts(){
+    return this.http.get<ALerResponse>('http://localhost:3000/api/dashboard_posts').subscribe({
+      next: (response) => {
+        if(!response.success){
+          console.log(response.message);
+          return;
+        }
+
+        this.reports = response.alerts.map( alert => ({
+          id: alert.post._id,
+          title: alert.post.title,
+          wilaya: alert.post.location,
+          status: "New",
+          action: "View"
+        }));
+        this.stats[0].value = this.reports.length;
+      }
+    });
+  }
+
 }
