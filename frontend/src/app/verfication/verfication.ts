@@ -24,19 +24,16 @@ export class Verfication {
     }
     console.log(this.email)
     const data = {
-      email: this.email,
       user_code: this.code
     };
-  
-    this.http.post<SignUpResponse>('http://localhost:3000/api/verfy', data).subscribe(response => {
+
+    this.http.post<SignUpResponse>('http://localhost:3000/api/verfy', data, { withCredentials: true }).subscribe(response => {
       if(!response.success){
         console.log(response.message);
         return;
       }
       console.log(response.message);
-      this.router.navigate(['/alerts'], {
-        state: {email: this.email}
-      });      
+      this.router.navigate(['/alerts']);
 
     });
 

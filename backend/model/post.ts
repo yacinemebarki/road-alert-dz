@@ -1,5 +1,4 @@
 import mongoose  from "mongoose";
-import { buffer } from "node:stream/consumers";
 
 const PostSchema = new mongoose.Schema({
     title: {
@@ -7,7 +6,7 @@ const PostSchema = new mongoose.Schema({
         required: true
     },
     
-    descrtiption: {
+    description: {
         type: String,
         required: true
     },
@@ -25,10 +24,15 @@ const PostSchema = new mongoose.Schema({
     },
 
     image: {
-        data: buffer,
-        contentType: String,
-        required: true
-    }
+        data: {
+            type: Buffer,
+            required: true
+        },
+        contentType: {
+            type: String,
+            required: true
+        }
+    }    
 })
 
 const Post = mongoose.model("Post", PostSchema);

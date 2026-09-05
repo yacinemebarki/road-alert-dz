@@ -17,18 +17,10 @@ export class AddPost {
   title = '';
   description = '';
   location = '';
-  email = '';
   image: File | null = null;
 
   constructor(private http: HttpClient, private router: Router, private nav: Location  ){
-    const navigation = this.router.getCurrentNavigation();
-
-    if(navigation?.extras.state){
-      this.email = navigation.extras.state['email'] ?? '';
-      if(this.email == ''){
-        this.router.navigate(['/']);
-      }
-    }
+    // authentication handled by backend via httpOnly cookie; no email kept in frontend
   }
 
   uploadFile(){
@@ -59,15 +51,13 @@ export class AddPost {
       return;
     }
 
-    const data = {
-      email: this.email,
-      title: this.title,
-      description: this.description,
-      location: this.location,
-      image: this.image
-    }
+    const formData = new FormData();
+    formData.append('title', this.title);
+    formData.append('description', this.description);
+    formData.append('location', this.location);
+    formData.append('image', this.image);
 
-    this.http.post<SignUpResponse>('http://localhost:3000/api/add_post', data).subscribe(response => {
+    this.http.post<SignUpResponse>('http://localhost:3000/api/add_post', formData, { withCredentials: true }).subscribe(response => {
       if(!response.success){
         console.log(response.message);
         return;

@@ -27,13 +27,13 @@ export class SignIn {
       password: this.password
     }
 
-    this.http.post<SignUpResponse>('http://localhost:3000/api/sign_in', data).subscribe(resoponse => {
+    this.http.post<SignUpResponse>('http://localhost:3000/api/sign_in', data, { withCredentials: true }).subscribe(resoponse => {
       if(!resoponse.success){
         console.log(resoponse.message);
         return
       }
       this.router.navigate(['/signup'], {
-        state: { current_step: 2, email: this.email}
+        state: { current_step: 2 }
       })
     })
   }

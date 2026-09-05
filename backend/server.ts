@@ -5,17 +5,21 @@ import mongoose from "mongoose";
 import  User   from './model/user.js';
 import bcrypt from "bcrypt";
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import Post from "./model/post.js";
 import Alert from "./model/alert.js";
+import multer from "multer";
 
 
 const app = express();
 
 app.use(cors({
-    origin: 'http://localhost:4200'
+    origin: 'http://localhost:4200',
+    credentials: true
 }));
 
 app.use(express.json());
+app.use(cookieParser());
 app.get("/api/test", (req, res) => {
     res.json({ message: "from the backed" });
 });
@@ -99,10 +103,10 @@ app.post("/api/sign_up", async (req, res) => {
         console.log(message);
 
         await sent_verfication_email(email);
+        res.cookie('pending_email', email, { httpOnly: true, sameSite: 'lax' });
         return res.json({
             success: true,
-            message: message,
-            email: email
+            message: message
         })
     }catch(err){
         message = "somthing went wrong";
@@ -144,11 +148,11 @@ app.post("/api/sign_in", async (req, res) => {
         let new_user = false;
         const user_name = user.name;
         sign_up_data.set(email, { user_name, password, new_user});
+        res.cookie('pending_email', email, { httpOnly: true, sameSite: 'lax' });
 
         return res.json({
             success: true,
-            message: message,
-            email: email
+            message: message
         })
         
     }catch(err){
@@ -164,7 +168,8 @@ app.post("/api/sign_in", async (req, res) => {
 
 app.post("/api/verfy",async (req, res) => {
     console.log("in verfy")
-    const { email, user_code } = req.body;
+    const { user_code } = req.body;
+    const email = req.cookies && req.cookies.pending_email;
     let message = "";
     console.log(email);       
 
@@ -198,6 +203,8 @@ app.post("/api/verfy",async (req, res) => {
             await newUser.save();
             console.log("user been add to the data base ")
             sign_up_data.delete(email);
+            res.clearCookie('pending_email');
+            res.cookie('user_email', email, { httpOnly: true, sameSite: 'lax' });
 
             return res.json({
                 success: true,
@@ -205,10 +212,12 @@ app.post("/api/verfy",async (req, res) => {
             })
         }else{
             message = 'Verfication successful';
+            res.clearCookie('pending_email');
+            res.cookie('user_email', email, { httpOnly: true, sameSite: 'lax' });
+
             return res.json({
                 success: true,
-                message: message,
-                email: email,
+                message: message
             })
         }
 
@@ -228,14 +237,17 @@ app.post("/api/verfy",async (req, res) => {
 
 
 //post manger
-async function add_post(title: string, description: string, location: string, image: File){
+async function add_post(title: string, description: string, location: string, image: Express.Multer.File){
 
     try{
         const newPost = new Post({
             title: title,
-            descrtiption: description,
+            description: description,
             location: location,   
-            image: image    
+            image: {
+                data: image.buffer,
+                contentType: image.mimetype
+            } 
         })
 
         const savedPost = await newPost.save();
@@ -247,25 +259,41 @@ async function add_post(title: string, description: string, location: string, im
     
 }
 
-app.post("/api/add_post", async (req, res) => {
-    const { email, title, descrtiption, location, image} = req.body;
+const upload = multer({ storage: multer.memoryStorage() });
+
+app.post("/api/add_post", upload.single('image'),async (req, res) => {
+    const { title, description, location} = req.body;
+    const email = req.cookies && req.cookies.user_email;
 
     try{
 
-        const post = await add_post(title, descrtiption, location, image);
+        if (!req.file) {
+            return res.json({
+                success: false,
+                message: "No image uploaded"
+            });
+        }
+
+
+
+        const post = await add_post(title, description, location, req.file);
         if (!post) {
             return res.json({
                 success: false,
-                email: email,
                 message: "Failed to create post"
             });
         }
+        console.log("the email is: ");
+        console.log(email);
+        if(!email){
+            return res.json({ success: false, message: 'Not authenticated' });
+        }
+
         const user = await User.findOne({ email: email});
 
         if (!user) {
             return res.json({
                 success: false,
-                email: email,
                 message: "User not found"
             });
         }
@@ -273,22 +301,20 @@ app.post("/api/add_post", async (req, res) => {
         const alert = new Alert({
             user: user._id,
             post: post._id,
-            view: false
         })
         
         await alert.save();
 
         return res.json({
             success: true,
-            email: email,
             message: "alert was created success"
         })
 
 
     }catch(err){
+        console.log(err);
         return res.json({
             success: false,
-            email: email,
             message: "somthing went wrong",
         })
     }

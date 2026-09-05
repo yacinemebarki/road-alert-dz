@@ -38,7 +38,7 @@ export class SignUpInputs {
       password: this.password
     }
 
-    this.http.post<SignUpResponse>('http://localhost:3000/api/sign_up', data).subscribe(response => {
+    this.http.post<SignUpResponse>('http://localhost:3000/api/sign_up', data, { withCredentials: true }).subscribe(response => {
       if(response.success == false){
         console.log(response.message);
         return;
