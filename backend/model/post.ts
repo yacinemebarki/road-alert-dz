@@ -17,6 +17,13 @@ const PostSchema = new mongoose.Schema({
         required: true
     },
 
+    status: {
+        type: String,
+        required: true,
+        enum: ["Broken", "Fixed", "In Progress"],
+        default: "Broken"   
+    },
+
     image: {
         data: buffer,
         contentType: String,

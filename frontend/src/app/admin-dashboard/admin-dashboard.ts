@@ -17,11 +17,20 @@ export class AdminDashboard {
     { icon: '🆕', label: 'New', value: 0, iconClass: 'icon-blue' },
     { icon: '⏳', label: 'In Progress', value: 0, iconClass: 'icon-gray' },
     { icon: '✅', label: 'Resolved', value: 0, iconClass: 'icon-blue' },
+    { icon: '❌', label: 'Broken', value: 0, iconClass: 'icon-blue' },
   ];
 
   reports: Report[] = [];
 
   constructor(private http: HttpClient){}
+
+  updateStats(alerts: Alert[]): void{
+    const total = alerts.length;
+    const newAlerts = alerts.filter( alert => alert.post.stauts == "New").length;
+    this.stats[2].value = alerts.filter( alert=> alert.post.stauts == "In Progress").length;
+    this.stats[3].value = alerts.filter( alert => alert.post.stauts == "Fixed").length;
+    this.stats[4].value = alerts.filter( alert => alert.post.stauts == "Broken").length;
+  }
 
   getPosts(){
     return this.http.get<ALerResponse>('http://localhost:3000/api/dashboard_posts').subscribe({
@@ -35,10 +44,11 @@ export class AdminDashboard {
           id: alert.post._id,
           title: alert.post.title,
           wilaya: alert.post.location,
-          status: "New",
-          action: "View"
+          status: alert.post.stauts,
+          action: alert.view
         }));
-        this.stats[0].value = this.reports.length;
+        this.updateStats(response.alerts);
+
       }
     });
   }

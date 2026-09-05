@@ -13,6 +13,8 @@ export interface Alert {
     _id: string;
     title: string;
     location: string;
+    description: string;
+    stauts: string;
   };
   view: string;
 }
@@ -21,7 +23,7 @@ export interface Report {
   id: string;
   title: string;
   wilaya: string;
-  status: 'New' | 'In Progress' | 'Resolved';
+  status: string;
   action: string;
 }
 
