@@ -62,6 +62,7 @@ export class AddPost {
         console.log(response.message);
         return;
       }
+      console.log(response.message);
 
     })
   }

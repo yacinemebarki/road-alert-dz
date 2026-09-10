@@ -323,6 +323,9 @@ app.post("/api/add_post", upload.single('image'),async (req, res) => {
 app.get("/api/dashboard_posts", async (req, res) => {
     try{
         const alerts = await Alert.find({ view: { $in: ["New", "Update" ]} }).populate("user", "email").populate("post");
+        console.log("ALERTS FROM DB:");
+        console.log(alerts);
+        console.log("COUNT:", alerts.length);
 
         return res.json({
             success: true,

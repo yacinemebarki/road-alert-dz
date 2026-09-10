@@ -3,25 +3,23 @@
         <h1 class="topbar-title">Admin Dashboard</h1>
         <div class="search">
             <svg class="search-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.6"/>
-                <path d="M17 17L13.5 13.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.6" />
+                <path d="M17 17L13.5 13.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
             </svg>
             <input type="text" id="search-input" class="search-input" placeholder="Search reports by wilaya">
         </div>
     </header>
 
     <section class="stats-grid">
-        @for (stat of stats; track stat.label) {
-            <div class="stat-card">
-                <div class="stat-icon" [class]="stat.iconClass">
-                    <span>{{ stat.icon }}</span>
-                </div>
-                <div class="stat-info">
-                    <p class="stat-label">{{ stat.label }}</p>
-                    <h3 class="stat-value">{{ stat.value }}</h3>
-                </div>
+        <div class="stat-card" *ngFor="let stat of stats">
+            <div class="stat-icon" [class]="stat.iconClass">
+                <span>{{ stat.icon }}</span>
             </div>
-        }
+            <div class="stat-info">
+                <p class="stat-label">{{ stat.label }}</p>
+                <h3 class="stat-value">{{ stat.value }}</h3>
+            </div>
+        </div>
     </section>
 
     <div class="filter">
@@ -51,24 +49,21 @@
                 </tr>
             </thead>
             <tbody>
-                @for (report of reports; track report.id) {
-                    <tr>
-                        <td class="muted">#{{ report.id }}</td>
-                        <td>{{ report.title }}</td>
-                        <td>{{ report.wilaya }}</td>
-                        <td>
-                            <span class="badge"
-                                [class.badge-new]="report.status === 'New'"
-                                [class.badge-progress]="report.status === 'In Progress'"
-                                [class.badge-resolved]="report.status === 'Resolved'">
-                                {{ report.status }}
-                            </span>
-                        </td>
-                        <td>
-                            <button class="action-btn">{{ report.action }}</button>
-                        </td>
-                    </tr>
-                }
+                <tr *ngFor="let report of reports">
+                    <td class="muted">#{{ report.id }}</td>
+                    <td>{{ report.title }}</td>
+                    <td>{{ report.wilaya }}</td>
+                    <td>
+                        <span class="badge" [class.badge-new]="report.status === 'New'"
+                            [class.badge-progress]="report.status === 'In Progress'"
+                            [class.badge-resolved]="report.status === 'Resolved'">
+                            {{ report.status }}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="action-btn">{{ report.action }}</button>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

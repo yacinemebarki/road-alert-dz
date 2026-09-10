@@ -1,13 +1,14 @@
 import { Title } from '@angular/platform-browser';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { Stat, Report, Alert, ALerResponse } from '../interfaces/alers-response';
 
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [CommonModule], 
+  imports: [CommonModule, HttpClientModule], 
   templateUrl: './admin-dashboard.html',
   styleUrls: ['./admin-dashboard.css']
 })
@@ -26,10 +27,13 @@ export class AdminDashboard {
 
   updateStats(alerts: Alert[]): void{
     const total = alerts.length;
-    const newAlerts = alerts.filter( alert => alert.post.stauts == "New").length;
-    this.stats[2].value = alerts.filter( alert=> alert.post.stauts == "In Progress").length;
-    this.stats[3].value = alerts.filter( alert => alert.post.stauts == "Fixed").length;
-    this.stats[4].value = alerts.filter( alert => alert.post.stauts == "Broken").length;
+    console.log(total);
+    const newAlerts = alerts.filter(alert => alert.post.stauts == 'New').length;
+    this.stats[0].value = total;
+    this.stats[1].value = newAlerts;
+    this.stats[2].value = alerts.filter(alert => alert.post.stauts == 'In Progress').length;
+    this.stats[3].value = alerts.filter(alert => alert.post.stauts == 'Resolved' || alert.post.stauts == 'Fixed').length;
+    this.stats[4].value = alerts.filter(alert => alert.post.stauts == 'Broken').length;
   }
 
   getPosts(){
@@ -51,6 +55,10 @@ export class AdminDashboard {
 
       }
     });
+  }
+
+  ngOnInit() {
+    this.getPosts();
   }
 
 }
