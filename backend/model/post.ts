@@ -19,7 +19,7 @@ const PostSchema = new mongoose.Schema({
     status: {
         type: String,
         required: true,
-        enum: ["Broken", "Fixed", "In Progress"],
+        enum: ["Broken", "Fixed", "In Progress", "New"],
         default: "Broken"   
     },
 

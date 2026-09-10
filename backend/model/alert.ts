@@ -19,6 +19,8 @@ const AlertSchema = new mongoose.Schema({
         default: "New",
         required: true
     }
+}, {
+    timestamps: true
 })
 
 const Alert = mongoose.model("Alert", AlertSchema);

@@ -1,13 +1,14 @@
-<div class="post">
+<div class="post" *ngIf="post">
     <div class="head">
         <div class="pfp">
             <div class="user-info">
-                <img src="pfp.jpeg" id="profile" class="profile">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80"
+                    id="profile" class="profile">
                 <div class="publicher-info">
                     <div class="user-name">
-                        <h5>Yacine Mebarki</h5>
+                        <h5>Road Alert Community</h5>
                     </div>
-                    <div class="time">2 hours ago</div>
+                    <div class="time">{{ displayTime }}</div>
                 </div>
             </div>
         </div>
@@ -17,19 +18,20 @@
     </div>
     <div class="post-info">
         <div class="post-title">
-            <h1>Big hole</h1>
+            <h1>{{ post.title }}</h1>
             <div class="location">
                 <i class="bi bi-geo-alt"></i>
-                <a href="https://maps.google.com/?q=Bab+El+Oued,+Alger" class="location-link">Bab El Oued, Alger</a>
+                <a [href]="'https://maps.google.com/?q=' + post.location" class="location-link" target="_blank"
+                    rel="noreferrer">{{ post.location }}</a>
             </div>
         </div>
         <div class="status">
-            <button class="status-btn" id="status-btn">Fixed</button>
+            <button class="status-btn" id="status-btn">{{ post.status }}</button>
         </div>
-        <div class="post-description">Drivers beware! There's a massive pothole right after the Blida North exit. It's hidden in the shadow of the overpass. Already saw one car with a flat tire there this morning.</div>
+        <div class="post-description">{{ post.description }}</div>
     </div>
     <div class="post-img">
-        <img src="hole_img.jpg" id="img" class="img">
+        <img [src]="imageUrl" id="img" class="img" alt="{{ post.title }}">
     </div>
     <div class="reaction">
         <div class="like">
@@ -38,8 +40,7 @@
         </div>
         <div class="share">
             <i class="bi bi-share"></i>
-            <p>Share
-            </p>
+            <p>Share</p>
         </div>
     </div>
 </div>

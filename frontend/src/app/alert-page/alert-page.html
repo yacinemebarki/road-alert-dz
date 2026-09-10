@@ -5,9 +5,11 @@
             <app-alert-filter></app-alert-filter>
             <app-alert-stats></app-alert-stats>
         </div>
-        <div class="post">
-            <app-alert-post></app-alert-post>
-            <app-alert-post></app-alert-post>
+        <div class="post" *ngIf="posts.length; else emptyState">
+            <app-alert-post *ngFor="let post of posts" [post]="post"></app-alert-post>
         </div>
-    </div>  
+        <ng-template #emptyState>
+            <div class="post empty-state">No public alerts yet.</div>
+        </ng-template>
+    </div>
 </div>

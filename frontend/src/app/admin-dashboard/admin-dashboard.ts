@@ -1,18 +1,17 @@
-import { Title } from '@angular/platform-browser';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { Stat, Report, Alert, ALerResponse } from '../interfaces/alers-response';
+import { buildReportRows } from './admin-dashboard.logic';
 
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [CommonModule, HttpClientModule], 
+  imports: [CommonModule, HttpClientModule],
   templateUrl: './admin-dashboard.html',
   styleUrls: ['./admin-dashboard.css']
 })
-export class AdminDashboard {
+export class AdminDashboard implements OnInit {
   stats: Stat[] = [
     { icon: '📋', label: 'Total Reports', value: 0, iconClass: 'icon-blue' },
     { icon: '🆕', label: 'New', value: 0, iconClass: 'icon-blue' },
@@ -23,42 +22,68 @@ export class AdminDashboard {
 
   reports: Report[] = [];
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient) {}
 
-  updateStats(alerts: Alert[]): void{
-    const total = alerts.length;
-    console.log(total);
-    const newAlerts = alerts.filter(alert => alert.post.stauts == 'New').length;
+  updateStats(alerts: Alert[]): void {
+    const pendingAlerts = alerts.filter((alert) => ['New', 'Update'].includes(alert.view));
+    const total = pendingAlerts.length;
+
     this.stats[0].value = total;
-    this.stats[1].value = newAlerts;
-    this.stats[2].value = alerts.filter(alert => alert.post.stauts == 'In Progress').length;
-    this.stats[3].value = alerts.filter(alert => alert.post.stauts == 'Resolved' || alert.post.stauts == 'Fixed').length;
-    this.stats[4].value = alerts.filter(alert => alert.post.stauts == 'Broken').length;
+    this.stats[1].value = pendingAlerts.filter((alert) => alert.view === 'New').length;
+    this.stats[2].value = pendingAlerts.filter((alert) => alert.post?.stauts === 'In Progress').length;
+    this.stats[3].value = pendingAlerts.filter((alert) => ['Resolved', 'Fixed'].includes(alert.post?.stauts ?? '')).length;
+    this.stats[4].value = pendingAlerts.filter((alert) => alert.post?.stauts === 'Broken').length;
   }
 
-  getPosts(){
-    return this.http.get<ALerResponse>('http://localhost:3000/api/dashboard_posts').subscribe({
+  getPosts(): void {
+    this.http.get<ALerResponse>('http://localhost:3000/api/dashboard_posts').subscribe({
       next: (response) => {
-        if(!response.success){
+        if (!response.success) {
           console.log(response.message);
           return;
         }
 
-        this.reports = response.alerts.map( alert => ({
-          id: alert.post._id,
-          title: alert.post.title,
-          wilaya: alert.post.location,
-          status: alert.post.stauts,
-          action: alert.view
-        }));
+        this.reports = buildReportRows(response.alerts);
         this.updateStats(response.alerts);
-
-      }
+      },
+      error: (err) => console.error('Failed to load alerts', err)
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getPosts();
   }
 
+  acceptReport(report: Report): void {
+    const alertId = report.id;
+    this.http.patch<{ success: boolean; message: string }>(`http://localhost:3000/api/alerts/${alertId}/accept`, {}).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.getPosts();
+        } else {
+          console.log(response.message);
+        }
+      },
+      error: (err) => console.error('Failed to accept alert', err)
+    });
+  }
+
+  deleteReport(report: Report): void {
+    const alertId = report.id;
+    this.http.delete<{ success: boolean; message: string }>(`http://localhost:3000/api/alerts/${alertId}`).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.getPosts();
+        } else {
+          console.log(response.message);
+        }
+      },
+      error: (err) => console.error('Failed to delete alert', err)
+    });
+  }
+
+  viewReport(report: Report): void {
+    this.acceptReport(report);
+  }
 }
+

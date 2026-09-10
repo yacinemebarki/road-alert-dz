@@ -54,14 +54,19 @@
                     <td>{{ report.title }}</td>
                     <td>{{ report.wilaya }}</td>
                     <td>
-                        <span class="badge" [class.badge-new]="report.status === 'New'"
+                        <span class="badge"
+                            [class.badge-new]="report.status === 'New'"
                             [class.badge-progress]="report.status === 'In Progress'"
-                            [class.badge-resolved]="report.status === 'Resolved'">
+                            [class.badge-resolved]="report.status === 'Fixed' || report.status === 'Resolved'"
+                            [class.badge-broken]="report.status === 'Broken'">
                             {{ report.status }}
                         </span>
                     </td>
                     <td>
-                        <button class="action-btn">{{ report.action }}</button>
+                        <div style="display:flex; gap:8px;">
+                            <button class="action-btn" (click)="viewReport(report)">{{ report.action }}</button>
+                            <button class="action-btn danger" (click)="deleteReport(report)">Delete</button>
+                        </div>
                     </td>
                 </tr>
             </tbody>

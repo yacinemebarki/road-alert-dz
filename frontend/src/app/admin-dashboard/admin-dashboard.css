@@ -235,7 +235,17 @@ tbody tr:hover {
   transition: background 0.15s ease, color 0.15s ease;
 }
 
+.action-btn.danger {
+  border-color: #dc2626;
+  color: #dc2626;
+}
+
 .action-btn:hover {
   background: var(--blue-700);
+  color: var(--white);
+}
+
+.action-btn.danger:hover {
+  background: #dc2626;
   color: var(--white);
 }

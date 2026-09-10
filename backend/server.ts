@@ -2,7 +2,7 @@ import express from "express";
 import nodemailer from "nodemailer";
 import 'dotenv/config';
 import mongoose from "mongoose";
-import  User   from './model/user.js';
+import User from './model/user.js';
 import bcrypt from "bcrypt";
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -26,14 +26,14 @@ app.get("/api/test", (req, res) => {
 
 
 //backend and data base connection
-app.listen(3000, ()=>{
+app.listen(3000, () => {
     console.log("server run on 3000");
 })
 
-export async function connectDb(){
-    try{
+export async function connectDb() {
+    try {
         await mongoose.connect(process.env.URI!);
-    }catch(err){
+    } catch (err) {
         console.log(err);
     }
 }
@@ -50,17 +50,17 @@ function generate_number() {
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
-    auth:{
+    auth: {
         user: process.env.EMAIL,
         pass: process.env.EMAIL_PASSWORD
     }
 })
 
 
-async function sent_verfication_email(to: string){
-    try {  
+async function sent_verfication_email(to: string) {
+    try {
         let code = generate_number();
-        codes.set(to, code);       
+        codes.set(to, code);
         let text = code.toString();
         const subject = "your verfication code";
         await transporter.sendMail({
@@ -70,7 +70,7 @@ async function sent_verfication_email(to: string){
             text: text
         })
         return code;
-    }catch(err){
+    } catch (err) {
         console.log(err);
     }
 }
@@ -81,13 +81,13 @@ const sign_up_data = new Map();
 const codes = new Map();
 
 app.post("/api/sign_up", async (req, res) => {
-    const { user_name, email, password} = req.body;
+    const { user_name, email, password } = req.body;
     console.log(user_name);
     let message = "";
-    try{  
-        let exist = await User.findOne({ email: email});
+    try {
+        let exist = await User.findOne({ email: email });
         console.log(exist);
-        if(exist){
+        if (exist) {
             message = "user with that email already exist";
             console.log(message);
             return res.json({
@@ -98,7 +98,7 @@ app.post("/api/sign_up", async (req, res) => {
 
         let new_user = true;
 
-        sign_up_data.set(email, { user_name, password, new_user});
+        sign_up_data.set(email, { user_name, password, new_user });
         message = "wait for verfication";
         console.log(message);
 
@@ -108,24 +108,24 @@ app.post("/api/sign_up", async (req, res) => {
             success: true,
             message: message
         })
-    }catch(err){
+    } catch (err) {
         message = "somthing went wrong";
         return res.json({
             success: false,
             message: message
         })
     }
-    
+
 })
 
 app.post("/api/sign_in", async (req, res) => {
     const { email, password } = req.body;
     let message = '';
 
-    try{
+    try {
 
         const user = await User.findOne({ email: email });
-        if(!user){
+        if (!user) {
             message = "Invalid email or password";
             return res.json({
                 success: false,
@@ -135,7 +135,7 @@ app.post("/api/sign_in", async (req, res) => {
         }
 
         const passwordMatch = await bcrypt.compare(password, user.password);
-        if(!passwordMatch){
+        if (!passwordMatch) {
             message = "invalid email or password";
             return res.json({
                 success: false,
@@ -147,15 +147,15 @@ app.post("/api/sign_in", async (req, res) => {
         message = "wait for verfication code";
         let new_user = false;
         const user_name = user.name;
-        sign_up_data.set(email, { user_name, password, new_user});
+        sign_up_data.set(email, { user_name, password, new_user });
         res.cookie('pending_email', email, { httpOnly: true, sameSite: 'lax' });
 
         return res.json({
             success: true,
             message: message
         })
-        
-    }catch(err){
+
+    } catch (err) {
         console.log(err);
         message = "somthing went wrong";
         return res.json({
@@ -166,17 +166,17 @@ app.post("/api/sign_in", async (req, res) => {
     }
 })
 
-app.post("/api/verfy",async (req, res) => {
+app.post("/api/verfy", async (req, res) => {
     console.log("in verfy")
     const { user_code } = req.body;
     const email = req.cookies && req.cookies.pending_email;
     let message = "";
-    console.log(email);       
+    console.log(email);
 
-    try{  
+    try {
         let code = codes.get(email);
-        console.log(code);       
-        if( user_code != code){
+        console.log(code);
+        if (user_code != code) {
             message = "wrong verfication code";
             return res.json({
                 success: false,
@@ -185,19 +185,19 @@ app.post("/api/verfy",async (req, res) => {
         }
         const userData = sign_up_data.get(email);
 
-        if(!userData){
+        if (!userData) {
             message = "data not be saved";
             return res.json({
                 success: false,
                 message: message
             })
         }
-        if(userData.new_user == true){
+        if (userData.new_user == true) {
             const hashPassword = await bcrypt.hash(userData.password, 10);
             const newUser = new User({
                 name: userData.user_name,
                 email: email,
-                password: hashPassword              
+                password: hashPassword
             })
             console.log("user created");
             await newUser.save();
@@ -210,7 +210,7 @@ app.post("/api/verfy",async (req, res) => {
                 success: true,
                 message: "Verification successful. Account created!"
             })
-        }else{
+        } else {
             message = 'Verfication successful';
             res.clearCookie('pending_email');
             res.cookie('user_email', email, { httpOnly: true, sameSite: 'lax' });
@@ -221,11 +221,11 @@ app.post("/api/verfy",async (req, res) => {
             })
         }
 
-        
-    }catch(err){
+
+    } catch (err) {
         message = "somthing went wrong";
         console.log(err);
-    
+
         return res.json({
             succes: false,
             message: message
@@ -237,35 +237,35 @@ app.post("/api/verfy",async (req, res) => {
 
 
 //post manger
-async function add_post(title: string, description: string, location: string, image: Express.Multer.File){
+async function add_post(title: string, description: string, location: string, image: Express.Multer.File) {
 
-    try{
+    try {
         const newPost = new Post({
             title: title,
             description: description,
-            location: location,   
+            location: location,
             image: {
                 data: image.buffer,
                 contentType: image.mimetype
-            } 
+            }
         })
 
         const savedPost = await newPost.save();
         return savedPost;
-    }catch(err){
+    } catch (err) {
         console.log(err);
         return;
     }
-    
+
 }
 
 const upload = multer({ storage: multer.memoryStorage() });
 
-app.post("/api/add_post", upload.single('image'),async (req, res) => {
-    const { title, description, location} = req.body;
+app.post("/api/add_post", upload.single('image'), async (req, res) => {
+    const { title, description, location } = req.body;
     const email = req.cookies && req.cookies.user_email;
 
-    try{
+    try {
 
         if (!req.file) {
             return res.json({
@@ -285,11 +285,11 @@ app.post("/api/add_post", upload.single('image'),async (req, res) => {
         }
         console.log("the email is: ");
         console.log(email);
-        if(!email){
+        if (!email) {
             return res.json({ success: false, message: 'Not authenticated' });
         }
 
-        const user = await User.findOne({ email: email});
+        const user = await User.findOne({ email: email });
 
         if (!user) {
             return res.json({
@@ -302,7 +302,7 @@ app.post("/api/add_post", upload.single('image'),async (req, res) => {
             user: user._id,
             post: post._id,
         })
-        
+
         await alert.save();
 
         return res.json({
@@ -311,7 +311,7 @@ app.post("/api/add_post", upload.single('image'),async (req, res) => {
         })
 
 
-    }catch(err){
+    } catch (err) {
         console.log(err);
         return res.json({
             success: false,
@@ -321,23 +321,112 @@ app.post("/api/add_post", upload.single('image'),async (req, res) => {
 })
 
 app.get("/api/dashboard_posts", async (req, res) => {
-    try{
-        const alerts = await Alert.find({ view: { $in: ["New", "Update" ]} }).populate("user", "email").populate("post");
-        console.log("ALERTS FROM DB:");
-        console.log(alerts);
-        console.log("COUNT:", alerts.length);
+    try {
+        const alerts = await Alert.find({ view: { $in: ["New", "Update"] } })
+            .populate("user", "email")
+            .populate("post");
+
+        const normalizedAlerts = alerts.map((alert) => {
+            const post = alert.post as any;
+
+            return {
+                ...alert.toObject(),
+                post: post && typeof post !== "string" && typeof post !== "number" ? {
+                    ...post.toObject(),
+                    stauts: post.status,
+                } : null
+            };
+        });
 
         return res.json({
             success: true,
             message: "alert was found",
-            alerts: alerts          
-        })
-        
-    }catch(err){
+            alerts: normalizedAlerts
+        });
+    } catch (err) {
         return res.json({
             success: false,
             message: "somthing went wrong",
             alerts: []
-        })
+        });
     }
-})
+});
+
+app.patch("/api/alerts/:id/accept", async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const alert = await Alert.findById(id).populate("post");
+        if (!alert) {
+            return res.status(404).json({ success: false, message: "Alert not found" });
+        }
+
+        const post = alert.post as any;
+
+        alert.view = "Old";
+        if (post && typeof post !== "string" && typeof post.save === "function") {
+            post.status = "In Progress";
+            await post.save();
+        }
+        await alert.save();
+
+        return res.json({ success: true, message: "Alert accepted successfully", alert });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ success: false, message: "Something went wrong" });
+    }
+});
+
+app.delete("/api/alerts/:id", async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const alert = await Alert.findById(id).populate("post");
+        if (!alert) {
+            return res.status(404).json({ success: false, message: "Alert not found" });
+        }
+
+        const post = alert.post as any;
+        if (post && typeof post !== "string" && post._id) {
+            await Post.findByIdAndDelete(post._id);
+        }
+
+        await Alert.findByIdAndDelete(id);
+
+        return res.json({ success: true, message: "Alert deleted successfully" });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ success: false, message: "Something went wrong" });
+    }
+});
+
+app.get("/api/public_posts", async (req, res) => {
+    try {
+        const alerts = await Alert.find({ view: "Old" }).populate("post");
+        const posts = alerts.flatMap((alert) => {
+            const post = alert.post as any;
+
+            if (!post || post instanceof mongoose.Types.ObjectId) {
+                return [];
+            }
+
+            return [{
+                _id: post._id,
+                title: post.title,
+                description: post.description,
+                location: post.location,
+                status: post.status,
+                image: post.image ? {
+                    data: Buffer.from(post.image.data).toString('base64'),
+                    contentType: post.image.contentType
+                } : null,
+                createdAt: post.createdAt
+            }];
+        });
+
+        return res.json({ success: true, message: "Public posts loaded", posts });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ success: false, message: "Something went wrong", posts: [] });
+    }
+});
