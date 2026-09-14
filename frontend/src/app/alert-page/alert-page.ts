@@ -30,7 +30,7 @@ export class AlertPage implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.http.get<{ success: boolean; posts: PublicPost[]; message: string }>('http://localhost:3000/api/public_posts').subscribe({
+    this.http.get<{ success: boolean; posts: PublicPost[]; message: string }>('https://road-alert-dz.onrender.com/api/public_posts').subscribe({
       next: (response) => {
         if (response.success) {
           this.posts = response.posts;
@@ -62,7 +62,7 @@ export class AlertPage implements OnInit {
   }
 
   reloadPublicPosts() {
-    this.http.get<{ success: boolean; posts: PublicPost[]; message: string }>('http://localhost:3000/api/public_posts').subscribe({
+    this.http.get<{ success: boolean; posts: PublicPost[]; message: string }>('https://road-alert-dz.onrender.com/api/public_posts').subscribe({
       next: (response) => {
         if (response.success) {
           // preserve local posts on top

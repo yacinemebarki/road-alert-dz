@@ -10,25 +10,25 @@ import { SignUpResponse } from '../interfaces/signup-response';
   styleUrl: './sign-up-inputs.css',
 })
 export class SignUpInputs {
-  @Output() UpBtn =  new EventEmitter<string>();
+  @Output() UpBtn = new EventEmitter<string>();
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient) { }
 
   user_name = '';
   email = '';
   password = '';
   confirm_password = '';
 
-  onVerify(){
-    if(this.user_name == '' || this.email == '' || this.password == '' || this.confirm_password == ''){
+  onVerify() {
+    if (this.user_name == '' || this.email == '' || this.password == '' || this.confirm_password == '') {
       return;
     }
 
-    if(this.password.length < 8){
+    if (this.password.length < 8) {
       return;
     }
 
-    if(this.password != this.confirm_password){
+    if (this.password != this.confirm_password) {
       return;
     }
 
@@ -38,14 +38,14 @@ export class SignUpInputs {
       password: this.password
     }
 
-    this.http.post<SignUpResponse>('http://localhost:3000/api/sign_up', data, { withCredentials: true }).subscribe(response => {
-      if(response.success == false){
+    this.http.post<SignUpResponse>('https://road-alert-dz.onrender.com/api/sign_up', data, { withCredentials: true }).subscribe(response => {
+      if (response.success == false) {
         console.log(response.message);
         return;
       }
       this.UpBtn.emit(this.email);
 
     });
-    
+
   }
 }

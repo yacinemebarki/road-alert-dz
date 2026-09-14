@@ -19,11 +19,11 @@ export class AddPost {
   location = '';
   image: File | null = null;
 
-  constructor(private http: HttpClient, private router: Router, private nav: Location  ){
+  constructor(private http: HttpClient, private router: Router, private nav: Location) {
     // authentication handled by backend via httpOnly cookie; no email kept in frontend
   }
 
-  uploadFile(){
+  uploadFile() {
     const uploadLink = document.getElementById('upload-link');
     const fileInput = document.getElementById('file-input');
 
@@ -34,19 +34,19 @@ export class AddPost {
     fileInput?.addEventListener('change', (event) => {
       const input = event.target as HTMLInputElement;
 
-      if(input.files && input.files.length > 0){
+      if (input.files && input.files.length > 0) {
         this.image = input.files[0];
       }
     })
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.uploadFile();
   }
 
 
-  report(){
-    if(this.title == '' || this.description == '' || this.location == '' || this.image == null){
+  report() {
+    if (this.title == '' || this.description == '' || this.location == '' || this.image == null) {
       console.log("you must enter all information");
       return;
     }
@@ -57,8 +57,8 @@ export class AddPost {
     formData.append('location', this.location);
     formData.append('image', this.image);
 
-    this.http.post<SignUpResponse>('http://localhost:3000/api/add_post', formData, { withCredentials: true }).subscribe(response => {
-      if(!response.success){
+    this.http.post<SignUpResponse>('https://road-alert-dz.onrender.com/api/add_post', formData, { withCredentials: true }).subscribe(response => {
+      if (!response.success) {
         console.log(response.message);
         return;
       }
@@ -66,7 +66,7 @@ export class AddPost {
 
     })
   }
-  cancel(){
+  cancel() {
     this.nav.back();
   }
 }

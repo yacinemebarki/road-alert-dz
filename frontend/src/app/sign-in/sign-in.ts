@@ -14,10 +14,10 @@ export class SignIn {
   password = '';
   email = '';
 
-  constructor(private http: HttpClient, private router: Router){}
+  constructor(private http: HttpClient, private router: Router) { }
 
-  sign(){
-    if(this.email == '' || this.password == ''){
+  sign() {
+    if (this.email == '' || this.password == '') {
       console.log("you should fill all fields");
       return;
     }
@@ -27,8 +27,8 @@ export class SignIn {
       password: this.password
     }
 
-    this.http.post<SignUpResponse>('http://localhost:3000/api/sign_in', data, { withCredentials: true }).subscribe(resoponse => {
-      if(!resoponse.success){
+    this.http.post<SignUpResponse>('https://road-alert-dz.onrender.com/api/sign_in', data, { withCredentials: true }).subscribe(resoponse => {
+      if (!resoponse.success) {
         console.log(resoponse.message);
         return
       }

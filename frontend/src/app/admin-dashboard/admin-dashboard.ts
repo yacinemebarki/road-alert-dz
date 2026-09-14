@@ -36,7 +36,7 @@ export class AdminDashboard implements OnInit {
   }
 
   getPosts(): void {
-    this.http.get<ALerResponse>('http://localhost:3000/api/dashboard_posts').subscribe({
+    this.http.get<ALerResponse>('https://road-alert-dz.onrender.com/api/dashboard_posts').subscribe({
       next: (response) => {
         console.log('dashboard_posts response:', response);
         if (!response.success) {
@@ -58,7 +58,7 @@ export class AdminDashboard implements OnInit {
 
   acceptReport(report: Report): void {
     const alertId = report.id;
-    this.http.patch<{ success: boolean; message: string }>(`http://localhost:3000/api/alerts/${alertId}/accept`, {}).subscribe({
+    this.http.patch<{ success: boolean; message: string }>(`https://road-alert-dz.onrender.com/api/alerts/${alertId}/accept`, {}).subscribe({
       next: (response) => {
         if (response.success) {
           this.getPosts();
@@ -72,7 +72,7 @@ export class AdminDashboard implements OnInit {
 
   deleteReport(report: Report): void {
     const alertId = report.id;
-    this.http.delete<{ success: boolean; message: string }>(`http://localhost:3000/api/alerts/${alertId}`).subscribe({
+    this.http.delete<{ success: boolean; message: string }>(`https://road-alert-dz.onrender.com/api/alerts/${alertId}`).subscribe({
       next: (response) => {
         if (response.success) {
           this.getPosts();

@@ -16,10 +16,10 @@ export class Verfication {
   @Output() verfyBtn = new EventEmitter<string>();
   code = '';
 
-  constructor(private http: HttpClient, private router: Router){}
+  constructor(private http: HttpClient, private router: Router) { }
 
-  verfication(){
-    if(this.code == ''){
+  verfication() {
+    if (this.code == '') {
       return;
     }
     console.log(this.email)
@@ -27,8 +27,8 @@ export class Verfication {
       user_code: this.code
     };
 
-    this.http.post<SignUpResponse>('http://localhost:3000/api/verfy', data, { withCredentials: true }).subscribe(response => {
-      if(!response.success){
+    this.http.post<SignUpResponse>('https://road-alert-dz.onrender.com/api/verfy', data, { withCredentials: true }).subscribe(response => {
+      if (!response.success) {
         console.log(response.message);
         return;
       }
@@ -37,6 +37,6 @@ export class Verfication {
 
     });
 
-     
+
   }
 }
