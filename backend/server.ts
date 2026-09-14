@@ -333,7 +333,7 @@ app.get("/api/dashboard_posts", async (req, res) => {
                 ...alert.toObject(),
                 post: post && typeof post !== "string" && typeof post !== "number" ? {
                     ...post.toObject(),
-                    stauts: post.status,
+                    status: post.status,
                 } : null
             };
         });

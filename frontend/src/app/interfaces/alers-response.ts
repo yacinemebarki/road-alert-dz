@@ -17,7 +17,7 @@ export interface Alert {
     title: string;
     location: string;
     description: string;
-    stauts: string;
+    status: string;
     image: string;
     time: string;
   };

@@ -22,7 +22,7 @@ export class AdminDashboard implements OnInit {
 
   reports: Report[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   updateStats(alerts: Alert[]): void {
     const pendingAlerts = alerts.filter((alert) => ['New', 'Update'].includes(alert.view));
@@ -30,20 +30,22 @@ export class AdminDashboard implements OnInit {
 
     this.stats[0].value = total;
     this.stats[1].value = pendingAlerts.filter((alert) => alert.view === 'New').length;
-    this.stats[2].value = pendingAlerts.filter((alert) => alert.post?.stauts === 'In Progress').length;
-    this.stats[3].value = pendingAlerts.filter((alert) => ['Resolved', 'Fixed'].includes(alert.post?.stauts ?? '')).length;
-    this.stats[4].value = pendingAlerts.filter((alert) => alert.post?.stauts === 'Broken').length;
+    this.stats[2].value = pendingAlerts.filter((alert) => alert.post?.status === 'In Progress').length;
+    this.stats[3].value = pendingAlerts.filter((alert) => ['Resolved', 'Fixed'].includes(alert.post?.status ?? '')).length;
+    this.stats[4].value = pendingAlerts.filter((alert) => alert.post?.status === 'Broken').length;
   }
 
   getPosts(): void {
     this.http.get<ALerResponse>('http://localhost:3000/api/dashboard_posts').subscribe({
       next: (response) => {
+        console.log('dashboard_posts response:', response);
         if (!response.success) {
           console.log(response.message);
           return;
         }
 
         this.reports = buildReportRows(response.alerts);
+        console.log('built reports:', this.reports);
         this.updateStats(response.alerts);
       },
       error: (err) => console.error('Failed to load alerts', err)
