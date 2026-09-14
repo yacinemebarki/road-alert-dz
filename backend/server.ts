@@ -26,7 +26,9 @@ app.get("/api/test", (req, res) => {
 
 
 //backend and data base connection
-app.listen(3000, () => {
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
     console.log("server run on 3000");
 })
 
