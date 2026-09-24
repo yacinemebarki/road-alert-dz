@@ -42,6 +42,10 @@ export async function connectDb() {
 
 connectDb();
 
+app.get("/", (req, res) => {
+  res.send("Road Alert DZ API is running");
+});
+
 
 //email verfication
 function generate_number() {
