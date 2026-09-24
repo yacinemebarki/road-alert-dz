@@ -3,6 +3,7 @@ import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SignUpResponse } from '../interfaces/signup-response';
+import { API_BASE } from '../config';
 
 @Component({
   selector: 'app-verfication',
@@ -27,7 +28,7 @@ export class Verfication {
       user_code: this.code
     };
 
-    this.http.post<SignUpResponse>('https://road-alert-dz.onrender.com/api/verfy', data, { withCredentials: true }).subscribe(response => {
+    this.http.post<SignUpResponse>(`${API_BASE}/api/verfy`, data, { withCredentials: true }).subscribe(response => {
       if (!response.success) {
         console.log(response.message);
         return;

@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { SignUpResponse } from '../interfaces/signup-response';
+import { API_BASE } from '../config';
 
 @Component({
   selector: 'app-sign-in',
@@ -27,7 +28,7 @@ export class SignIn {
       password: this.password
     }
 
-    this.http.post<SignUpResponse>('https://road-alert-dz.onrender.com/api/sign_in', data, { withCredentials: true }).subscribe(resoponse => {
+    this.http.post<SignUpResponse>(`${API_BASE}/api/sign_in`, data, { withCredentials: true }).subscribe(resoponse => {
       if (!resoponse.success) {
         console.log(resoponse.message);
         return

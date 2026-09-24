@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SignUpResponse } from '../interfaces/signup-response';
+import { API_BASE } from '../config';
 
 @Component({
   selector: 'app-sign-up-inputs',
@@ -38,7 +39,7 @@ export class SignUpInputs {
       password: this.password
     }
 
-    this.http.post<SignUpResponse>('https://road-alert-dz.onrender.com/api/sign_up', data, { withCredentials: true }).subscribe(response => {
+    this.http.post<SignUpResponse>(`${API_BASE}/api/sign_up`, data, { withCredentials: true }).subscribe(response => {
       if (response.success == false) {
         console.log(response.message);
         return;

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SignUpResponse } from '../interfaces/signup-response';
+import { API_BASE } from '../config';
 import { Location } from '@angular/common';
 
 
@@ -57,7 +58,7 @@ export class AddPost {
     formData.append('location', this.location);
     formData.append('image', this.image);
 
-    this.http.post<SignUpResponse>('https://road-alert-dz.onrender.com/api/add_post', formData, { withCredentials: true }).subscribe(response => {
+    this.http.post<SignUpResponse>(`${API_BASE}/api/add_post`, formData, { withCredentials: true }).subscribe(response => {
       if (!response.success) {
         console.log(response.message);
         return;
