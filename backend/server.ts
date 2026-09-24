@@ -412,6 +412,7 @@ app.delete("/api/alerts/:id", async (req, res) => {
 app.get("/api/public_posts", async (req, res) => {
     try {
         const alerts = await Alert.find({ view: "Old" }).populate("post");
+
         const posts = alerts.flatMap((alert) => {
             const post = alert.post as any;
 
@@ -426,16 +427,26 @@ app.get("/api/public_posts", async (req, res) => {
                 location: post.location,
                 status: post.status,
                 image: post.image ? {
-                    data: Buffer.from(post.image.data).toString('base64'),
+                    data: Buffer.from(post.image.data).toString("base64"),
                     contentType: post.image.contentType
                 } : null,
                 createdAt: post.createdAt
             }];
         });
 
-        return res.json({ success: true, message: "Public posts loaded", posts });
+        return res.json({
+            success: true,
+            message: "Public posts loaded",
+            posts
+        });
+
     } catch (err) {
-        console.log(err);
-        return res.status(500).json({ success: false, message: "Something went wrong", posts: [] });
+        console.error("PUBLIC POSTS ERROR:", err);
+
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong",
+            posts: []
+        });
     }
 });
