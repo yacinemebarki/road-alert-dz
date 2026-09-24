@@ -13,9 +13,14 @@ import multer from "multer";
 
 const app = express();
 
+import cors from 'cors';
+
 app.use(cors({
-    origin: 'http://localhost:4200',
-    credentials: true
+  origin: [
+    'http://localhost:4200',
+    'https://roadalertdz.vercel.app'
+  ],
+  credentials: true
 }));
 
 app.use(express.json());
