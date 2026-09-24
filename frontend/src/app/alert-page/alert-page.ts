@@ -5,6 +5,7 @@ import { AlertHeader } from '../aler-header/alert-header';
 import { AlertFilter } from '../alert-filter/alert-filter';
 import { AlertStats } from '../alert-stats/alert-stats';
 import { AlertPost } from '../alert-post/alert-post';
+import { API_BASE } from '../config';
 
 export interface PublicPost {
   _id: string;
