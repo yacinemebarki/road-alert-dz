@@ -29,7 +29,7 @@ app.get("/api/test", (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-    console.log("server run on 3000");
+    console.log(`Server running on port ${PORT}`);
 })
 
 export async function connectDb() {
